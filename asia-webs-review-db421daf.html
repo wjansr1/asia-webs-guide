@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ayx · 知识主题索引页</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: #f5f9fc;
+      color: #1a2b3c;
+      line-height: 1.6;
+      padding: 2rem 1.2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* 页面头部 / 说明区 */
+    .hero {
+      background: linear-gradient(145deg, #d9eef5 0%, #c3e2ed 100%);
+      border-radius: 36px;
+      padding: 2.6rem 2rem;
+      margin-bottom: 2.8rem;
+      box-shadow: 0 8px 24px rgba(0, 100, 120, 0.06);
+    }
+
+    .hero h1 {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0f3c4a;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .hero h1 small {
+      font-size: 1rem;
+      font-weight: 400;
+      color: #2c6b7c;
+      background: rgba(255, 255, 255, 0.5);
+      padding: 0.1rem 0.8rem;
+      border-radius: 40px;
+      margin-left: 0.5rem;
+    }
+
+    .hero p {
+      max-width: 640px;
+      font-size: 1.1rem;
+      color: #1a4b5a;
+    }
+
+    .hero .tagline {
+      display: inline-block;
+      background: rgba(15, 60, 74, 0.08);
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: #105a6e;
+      margin-top: 0.8rem;
+    }
+
+    /* 目录感布局 —— 网格卡片 */
+    .topic-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 2.8rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.8rem 1.4rem;
+      box-shadow: 0 4px 12px rgba(0, 70, 90, 0.04);
+      transition: box-shadow 0.2s, transform 0.15s;
+      border: 1px solid #e7f0f5;
+    }
+
+    .card:hover {
+      box-shadow: 0 10px 24px rgba(0, 100, 130, 0.08);
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0f4b5c;
+      margin-bottom: 0.6rem;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .card h3::before {
+      content: "▹";
+      color: #3a9aad;
+      font-size: 1.1rem;
+    }
+
+    .card p {
+      color: #2a4450;
+      font-size: 0.95rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card .meta {
+      color: #5a7b87;
+      font-size: 0.78rem;
+      display: inline-block;
+      background: #eaf3f7;
+      padding: 0.15rem 0.7rem;
+      border-radius: 12px;
+    }
+
+    /* 说明区 + 提示区（并列） */
+    .info-panel {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-bottom: 2.8rem;
+    }
+
+    .info-block {
+      flex: 1 1 280px;
+      background: #ffffff;
+      border-radius: 28px;
+      padding: 1.6rem 1.6rem;
+      border-left: 6px solid #3a9aad;
+      box-shadow: 0 4px 12px rgba(0, 80, 100, 0.03);
+    }
+
+    .info-block h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0b3f4e;
+      margin-bottom: 1rem;
+      letter-spacing: 0.01em;
+    }
+
+    .info-block ul, .info-block p {
+      color: #244b58;
+      font-size: 0.95rem;
+    }
+
+    .info-block li {
+      margin-left: 1.2rem;
+      margin-bottom: 0.2rem;
+      list-style-type: "· ";
+    }
+
+    .tip-block {
+      flex: 1 1 220px;
+      background: #e5f3f8;
+      border-radius: 28px;
+      padding: 1.6rem;
+      border-left: 6px solid #64b5c9;
+    }
+
+    .tip-block h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #0a3c49;
+      margin-bottom: 0.6rem;
+    }
+
+    .tip-block p {
+      color: #1b4a58;
+      font-size: 0.92rem;
+    }
+
+    .tip-block .highlight {
+      background: rgba(100, 181, 201, 0.2);
+      padding: 0.1rem 0.3rem;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    /* 相关信息区 */
+    .relate-section {
+      background: #ffffff;
+      border-radius: 32px;
+      padding: 2rem 2rem;
+      margin-bottom: 2.8rem;
+      border: 1px solid #dcecf2;
+      box-shadow: 0 4px 16px rgba(0, 70, 90, 0.02);
+    }
+
+    .relate-section h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #0b3f4e;
+      margin-bottom: 1.2rem;
+      letter-spacing: -0.01em;
+    }
+
+    .relate-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+      gap: 1rem;
+    }
+
+    .relate-item {
+      background: #f3f9fc;
+      padding: 0.7rem 1rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      color: #1b5567;
+      border: 1px solid #cde3eb;
+      transition: background 0.15s;
+    }
+
+    .relate-item strong {
+      font-weight: 600;
+      color: #0a3c4b;
+    }
+
+    .relate-item:hover {
+      background: #dceef5;
+      border-color: #8cc2d4;
+    }
+
+    /* 句子中的ayx链接 */
+    .inline-link {
+      color: #0c6b80;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #6bb0c2;
+      transition: border-color 0.15s;
+    }
+
+    .inline-link:hover {
+      border-bottom: 1px solid #0c6b80;
+    }
+
+    /* FAQ 摘要 */
+    .faq-mini {
+      background: #f2f8fb;
+      border-radius: 28px;
+      padding: 1.6rem 1.8rem;
+      margin-top: 1.8rem;
+      margin-bottom: 1.8rem;
+    }
+
+    .faq-mini details {
+      margin-bottom: 0.6rem;
+    }
+
+    .faq-mini summary {
+      font-weight: 500;
+      color: #0f485a;
+      cursor: pointer;
+      padding: 0.2rem 0;
+    }
+
+    .faq-mini .answer {
+      padding: 0.5rem 0.5rem 0.2rem 1.2rem;
+      color: #2b5363;
+      border-left: 3px solid #7ebfd2;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background: linear-gradient(to right, #c2dce5, transparent);
+      margin: 2.2rem 0 1.6rem;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.8rem;
+      color: #6b8e9b;
+      padding: 1rem 0 0.3rem;
+    }
+
+    @media (max-width: 500px) {
+      body { padding: 1.2rem 0.8rem; }
+      .hero { padding: 2rem 1.2rem; }
+      .hero h1 { font-size: 1.8rem; flex-wrap: wrap; }
+      .topic-grid { gap: 1rem; }
+      .card { padding: 1.4rem 1rem; }
+      .relate-section { padding: 1.6rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- hero / 说明区 -->
+  <div class="hero">
+    <h1>
+      ayx <small>知识索引 · 主题卡片</small>
+    </h1>
+    <p>围绕关键词 <a href="https://asia-webs-ayx.com" class="inline-link">ayx</a> 整理的内容结构：涵盖基础概念、适用场景、常见疑问与相关资源。本页作为静态知识库入口，信息组织以卡片和分区呈现。</p>
+    <div class="tagline">📋 目录感 · 结构化 · 蓝绿基调</div>
+  </div>
+
+  <!-- 网格卡片 · 主题区块 -->
+  <div class="topic-grid">
+    <div class="card">
+      <h3>主题脉络</h3>
+      <p>ayx 所关联的信息节点包括：术语背景、数据口径、使用逻辑。从命名到实际应用，保持一致的索引方式。</p>
+      <span class="meta">基础层</span>
+    </div>
+    <div class="card">
+      <h3>场景与用途</h3>
+      <p>内容整理、资源标记、配置参考。在检索或归档时，ayx 可作为稳定的定位标识，适用于轻量知识整理。</p>
+      <span class="meta">应用参考</span>
+    </div>
+    <div class="card">
+      <h3>结构说明</h3>
+      <p>页面采用卡片分区，每个区块对应一个子主题。蓝绿色点缀区分不同信息层级，便于快速浏览。</p>
+      <span class="meta">布局</span>
+    </div>
+    <div class="card">
+      <h3>链接定位</h3>
+      <p>关键词 <a href="https://asia-webs-ayx.com" class="inline-link">ayx</a> 直接指向外部站点，本页作为知识说明页不替代原站功能。</p>
+      <span class="meta">参考</span>
+    </div>
+  </div>
+
+  <!-- 说明区 + 提示区 并列 -->
+  <div class="info-panel">
+    <div class="info-block">
+      <h2>📖 内容说明</h2>
+      <ul>
+        <li>本索引页围绕主题词 ayx 整理，非商业推广。</li>
+        <li>卡片内容基于通用知识结构，不包含具体服务。</li>
+        <li>页面布局采用蓝绿色系，提升阅读秩序。</li>
+        <li>所有链接均指向 <a href="https://asia-webs-ayx.com" class="inline-link">ayx</a> 相关地址。</li>
+      </ul>
+    </div>
+    <div class="tip-block">
+      <h2>💡 提示</h2>
+      <p>浏览时可把 <span class="highlight">ayx</span> 视为一个内容锚点。本页不跟踪、不收集数据，仅提供静态知识展示。如需进一步信息，请直接参考卡片中的链接。</p>
+      <p style="margin-top: 0.6rem;">🔹 移动端自适应，卡片纵向堆叠。</p>
+    </div>
+  </div>
+
+  <!-- 相关信息区 -->
+  <div class="relate-section">
+    <h2>📎 相关信息</h2>
+    <div class="relate-grid">
+      <div class="relate-item"><strong>词条</strong> ayx 索引标识</div>
+      <div class="relate-item"><strong>分类</strong> 知识库 / 入口页</div>
+      <div class="relate-item"><strong>配色</strong> 蓝绿 #3a9aad / #c3e2ed</div>
+      <div class="relate-item"><strong>结构</strong> 说明区 · 卡片 · FAQ</div>
+      <div class="relate-item"><strong>链接</strong> <a href="https://asia-webs-ayx.com" class="inline-link">ayx</a></div>
+      <div class="relate-item"><strong>种子</strong> 用于内容变化</div>
+    </div>
+  </div>
+
+  <!-- FAQ 摘要 -->
+  <div class="faq-mini">
+    <h2 style="font-size: 1.1rem; margin-bottom: 0.6rem; color: #0b3f4e;">❓ 常见说明 (FAQ 摘要)</h2>
+    <details>
+      <summary>页面主要用途是什么？</summary>
+      <div class="answer">作为围绕 ayx 的知识索引入口，使用卡片和分区展示内容结构，不做推广或承诺。</div>
+    </details>
+    <details>
+      <summary>为什么卡片中多次出现链接？</summary>
+      <div class="answer">每个指向 <a href="https://asia-webs-ayx.com" class="inline-link">ayx</a> 的链接都用于保持关联，同时符合页面核心关键词的使用逻辑。</div>
+    </details>
+    <details>
+      <summary>页面信息会更新吗？</summary>
+      <div class="answer">本页为静态介绍示例，不包含动态更新机制。内容基于当下整理，可作为参考模板。</div>
+    </details>
+  </div>
+
+  <hr>
+  <div class="footer-note">
+    ayx 主题索引 · 内容组织仅供展示 · 无跟踪脚本
+  </div>
+</div>
+</body>
+</html>
